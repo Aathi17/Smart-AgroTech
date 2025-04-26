@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Monitoring Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/Users/aathimuthu/Downloads/agricultural-field-flat-color-vector.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+        }
+
+        .cloud-heading {
+            background: rgba(240, 248, 255, 0.8);
+            border: 2px solid #87ceeb;
+            border-radius: 50px;
+            color: #00008b;
+            display: inline-block;
+            font-size: 2em;
+            margin: 20px auto;
+            padding: 20px 50px;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 100px 20px 20px 20px; /* Add top padding to account for the fixed heading */
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 20px;
+            padding: 20px;
+            width: 250px;
+            height: 250px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="cloud-heading">Farm Monitoring System</div>
+    <div class="dashboard">
+        <div class="card" id="temperature-card">
+            <img src="/Users/aathimuthu/Downloads/1487511.png" alt="Temperature Icon">
+            <h3>Temperature</h3>
+            <p id="temperature-value">25°C</p>
+        </div>
+        <div class="card" id="humidity-card">
+            <img src="/Users/aathimuthu/Downloads/6393221.png" alt="Humidity Icon">
+            <h3>Humidity</h3>
+            <p id="humidity-value">60%</p>
+        </div>
+        <div class="card" id="soil-moisture-card">
+            <img src="/Users/aathimuthu/Downloads/istockphoto-1145885099-612x612.jpg" alt="Soil Moisture Icon">
+            <h3>Soil Moisture</h3>
+            <p id="soil-moisture-value">30%</p>
+        </div>
+        <div class="card" id="light-intensity-card">
+            <img src="/Users/aathimuthu/Downloads/2779262.png" alt="Light Intensity Icon">
+            <h3>Light Intensity</h3>
+            <p id="light-intensity-value">700 lux</p>
+        </div>
+        <div class="card" id="crop-recommendation-card">
+            <img src="/Users/aathimuthu/Downloads/png-transparent-computer-icons-crop-agriculture-farmer-grain-miscellaneous-food-leaf-thumbnail.png" alt="Crop Recommendation Icon">
+            <h3>Crop Recommendation</h3>
+            <p id="crop-recommendation-value">Recommended Crop: Corn</p>
+        </div>
+    </div>
+
+    <!-- Popup Modal -->
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate random values
+        function getRandomValue(min, max, decimals = 0) {
+            const factor = Math.pow(10, decimals);
+            return (Math.random() * (max - min) + min).toFixed(decimals);
+        }
+
+        // Function to generate random NPK values
+        function getRandomNPKValues() {
+            return {
+                nitrogen: Math.floor(Math.random() * 100),
+                phosphorus: Math.floor(Math.random() * 50),
+                potassium: Math.floor(Math.random() * 50)
+            };
+        }
+
+        // Function to recommend crop based on NPK values
+        function recommendCrop(nitrogen, phosphorus, potassium) {
+            // Sample logic to recommend a crop based on NPK values
+            if (nitrogen >= 50 && phosphorus >= 20 && potassium >= 30) {
+                return "Corn";
+            } else if (nitrogen >= 40 && phosphorus >= 15 && potassium >= 25) {
+                return "Wheat";
+            } else if (nitrogen >= 30 && phosphorus >= 10 && potassium >= 20) {
+                return "Soybean";
+            } else if (nitrogen >= 25 && phosphorus >= 5 && potassium >= 15) {
+                return "Rice";
+            } else if (nitrogen >= 20 && phosphorus >= 8 && potassium >= 10) {
+                return "Barley";
+            } else {
+                return "No specific recommendation";
+            }
+        }
+
+        // Set random values to the cards
+        document.getElementById('temperature-value').innerText = getRandomValue(27, 30) + '°C';
+        document.getElementById('humidity-value').innerText = getRandomValue(30, 90) + '%';
+        document.getElementById('soil-moisture-value').innerText = getRandomValue(1, 0) + '%';
+        document.getElementById('light-intensity-value').innerText = getRandomValue(200, 1000) + ' lux';
+
+        // Get all cards
+        var cards = document.getElementsByClassName("card");
+
+        // Add event listener to each card
+        Array.from(cards).forEach(function(card) {
+            card.addEventListener("click", function() {
+                var cardId = this.id;
+                var modalBody = document.getElementById("modal-body");
+
+                // Customize the content for each card
+                switch(cardId) {
+                    case "temperature-card":
+                        modalBody.innerHTML = "<img src='/Users/aathimuthu/Downloads/temperature.jpg' alt='Temperature Details' style='width: 150px; height: 150px'><h3>Temperature Details</h3><p>Current temperature is " + document.getElementById('temperature-value').innerText + ". It is important to maintain the optimal temperature for crop growth.</p>";
+                        break;
+                    case "humidity-card":
+                        modalBody.innerHTML = "<img src='/Users/aathimuthu/Downloads/6393221.png' alt='Humidity Details' style='width: 200px; height: 150px'><h3>Humidity Details</h3><p>Current humidity is " + document.getElementById('humidity-value').innerText + ". Proper humidity levels are crucial for crop health.</p>";
+                        break;
+                    case "soil-moisture-card":
+                        modalBody.innerHTML = "<img src='https://t3.ftcdn.net/jpg/01/62/46/52/240_F_162465260_8hJLbJ8JjmbLnkUDECsuovu9JEPZf4rd.jpg' alt='Soil Moisture Details' style='width: 100%; border-radius:20px;'><h3>Soil Moisture Details</h3><p>Current soil moisture is " + document.getElementById('soil-moisture-value').innerText + ". Adequate soil moisture is necessary for optimal plant growth.</p>";
+                        break;
+                    case "light-intensity-card":
+                        modalBody.innerHTML = "<img src='/Users/aathimuthu/Downloads/generative-ai-young-plant-growing-in-sunlight-from-the-ground-macrorealistic-illustration-agricultural-vegetable-nature-organic-healthy-farm-food-concept-horizontal-banner-photo.jpeg' alt='Light Intensity Details' style='width: 100%;height:100%; border-radius: 20px;'><h3>Light Intensity Details</h3><p>Current light intensity is " + document.getElementById('light-intensity-value').innerText + ". Sufficient light is essential for photosynthesis and crop yield.</p>";
+                        break;
+                    case "crop-recommendation-card":
+                    var npkValues = getRandomNPKValues();
+                    var recommendedCrop = recommendCrop(npkValues.nitrogen, npkValues.phosphorus, npkValues.potassium);
+                        modalBody.innerHTML = "<img src='/Users/aathimuthu/Downloads/iot-in-agriculture.jpg' alt='Crop Recommendation Details' style='width: 500px;height:300px;border-radius:20px;'><h3>Crop Recommendation Details</h3><p>Recommended crop based on current conditions is " + document.getElementById('crop-recommendation-value').innerText + ". Choosing the right crop can maximize yield and profitability.</p>";
+                        break;
+                    default:
+                        modalBody.innerHTML = "<p>No details available.</p>";
+                }
+
+              
+                // Display the modal
+                var modal = document.getElementById("popup-modal");
+                modal.style.display = "block";
+            });
+        });
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            var modal = document.getElementById("popup-modal");
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            var modal = document.getElementById("popup-modal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

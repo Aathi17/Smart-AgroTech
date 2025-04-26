@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data Display</title>
+    <style>
+.body{
+    font-family: Arial, Helvetica, sans-serif
+    #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.module {
+    margin-bottom: 40px;
+}
+
+.sensor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sensor img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.sensor h3 {
+    font-size: 1.5em;
+    margin: 0 0 10px 0;
+    color: #333;
+    text-align: center;
+}
+
+
+.sensor .description {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .sensor {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .sensor img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sensor Data Display</h1>
+
+        <div class="module">
+            <h2>Agri-Kit</h2>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/61Aw-3C61KL.jpg" alt="DHT11 Sensor">
+                <h3>DHT11</h3>
+                <p class="description">The DHT11 is a basic, ultra-low-cost digital temperature and humidity sensor. It uses a capacitive humidity sensor and a thermistor to measure the surrounding air, and spits out a digital signal on the data pin (no analog input pins needed). It's simple to use, but requires careful timing to grab data. The only real downside of this sensor is that you can only get new data from it once every 2 seconds, so when using our library, sensor readings can be up to 2 seconds old. However, it has excellent long-term stability and is one of the most common sensors used in DIY projects for environmental monitoring.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://digilog.pk/cdn/shop/files/Analog-Output-LM393-Optical-Photosensitive-LDR-light-sensor-module-In-Pakistan.jpg" alt="LDR Sensor">
+                <h3>LDR</h3>
+                <p class="description">A Light Dependent Resistor (LDR) is a passive electronic component that has a resistance that varies depending on the amount of light falling on its surface. LDRs are made from high resistance semiconductor materials. When light falls upon the LDR, the resistance changes, causing a change in the voltage across the component, which can be measured. LDRs are commonly used in light-sensing circuits, such as automatic street lights, light meters in cameras, and many other devices where light measurement is required. They are known for their simple design and reliable operation in various lighting conditions.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/61pScDFgHyS._AC_UF1000,1000_QL80_.jpg" alt="Soil Moisture Sensor">
+                <h3>Soil Moisture Sensor</h3>
+                <p class="description">Soil Moisture Sensors are used to measure the volumetric water content in soil. These sensors typically use capacitance to measure dielectric permittivity of the surrounding medium. They are essential in agriculture to help farmers determine the optimal irrigation schedule and improve water efficiency. Soil moisture sensors are also used in environmental monitoring and research to study soil properties and plant water usage. With advancements in technology, these sensors have become more affordable and easy to integrate into various systems, providing real-time data on soil moisture levels.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/71ZUXpbgc1L._AC_UF1000,1000_QL80_.jpg" alt="NODE MCU ESP8266">
+                <h3>NODE MCU ESP8266</h3>
+                <p class="description">The NODE MCU ESP8266 is a low-cost Wi-Fi microchip with full TCP/IP stack and microcontroller capability. It features a powerful processor, memory, and general-purpose input/output (GPIO) pins. The ESP8266 can be used for building smart home devices, IoT projects, and various automation systems. It supports various programming environments, including the Arduino IDE, making it accessible to beginners and professionals alike. Its small form factor and built-in Wi-Fi make it a popular choice for wireless networking projects. The NODE MCU ESP8266 has become a staple in the maker community for creating connected devices.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/71xAu2WmntL.jpg" alt="Power Supply Board">
+                <h3>Power Supply Board</h3>
+                <p class="description">A Power Supply Board is an essential component in electronic systems, providing the necessary power to operate various sensors and modules. These boards convert high voltage AC power from the mains supply into lower voltage DC power required by electronic circuits. They include voltage regulation features to ensure a stable output voltage, protecting sensitive components from voltage fluctuations. Power Supply Boards come in various designs, including linear and switching regulators, each with its advantages. They are crucial for ensuring the reliable operation of electronic devices, particularly in projects involving multiple components with different voltage requirements.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/514kHe95rZL._AC_UF894,1000_QL80_.jpg" alt="NPK Sensor">
+                <h3>NPK Sensor</h3>
+                <p class="description">NPK Sensors are specialized devices used to measure the levels of nitrogen (N), phosphorus (P), and potassium (K) in the soil. These nutrients are critical for plant growth, and their proper management is essential for optimal crop yield. NPK sensors provide real-time data on soil nutrient levels, enabling precise fertilization practices and reducing environmental impact. They are used in agriculture to monitor soil health, guide fertilization strategies, and improve resource efficiency. These sensors can be integrated into automated systems, providing continuous monitoring and data logging capabilities. NPK sensors are invaluable tools for modern agriculture and environmental management.</p>
+            </div>
+        </div>
+
+        <div class="module">
+            <h2>Bee-Kit</h2>
+            <div class="sensor">
+                <img src="https://www.flyrobo.in/image/cache/catalog/product2/microphone-sound-sensor-module-voice-sensor-high-sensitivity-sound-detection-module-whistle-module-600x600.JPG" alt="Mic Sensor">
+                <h3>Mic Sensor</h3>
+                <p class="description">Mic Sensors, also known as microphones or sound sensors, are used to detect and measure sound levels in the environment. They convert sound waves into electrical signals, which can be processed and analyzed. Mic sensors are used in a wide range of applications, from voice recognition systems and audio recording to environmental monitoring and noise control. They can measure sound intensity, frequency, and duration, making them versatile tools for sound analysis. In projects involving sound detection, mic sensors are essential components, providing valuable data for various purposes, including security systems and user interface control.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/61BGvIZSb4L._AC_UF1000,1000_QL80_.jpg" alt="Buzzer">
+                <h3>Buzzer</h3>
+                <p class="description">A Buzzer is an audio signaling device, which may be mechanical, electromechanical, or piezoelectric. Buzzers are used in a variety of applications to alert users to certain events, provide feedback, or signal warnings. They produce sound through the vibration of a diaphragm or other element, typically when an electrical signal is applied. Buzzers can generate different tones, from simple beeps to more complex sounds, depending on the application. They are commonly used in alarms, timers, and user interfaces for devices to provide auditory signals. The simplicity and reliability of buzzers make them a popular choice in many electronic devices.</p>
+            </div>
+            <div class="sensor">
+                <img src="https://m.media-amazon.com/images/I/51cqwS3CeaL._SX522_.jpg" alt="Blower">
+                <h3>Blower</h3>
+                <p class="description">A Blower is a mechanical device used to move air or gases. It consists of a fan or impeller that increases the speed and volume of the air stream. Blowers are used in various applications, including cooling electronic equipment, providing ventilation, and in industrial processes. They can also be used to distribute heated air in HVAC systems or to remove fumes and gases from an area. Blowers are critical components in systems where controlled air flow is necessary. They come in different types and sizes, suitable for various industrial, commercial, and residential applications, ensuring efficient and reliable air movement.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

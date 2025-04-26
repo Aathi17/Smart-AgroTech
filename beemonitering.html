@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bee Presence Monitoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/Users/aathimuthu/Downloads/vecteezy_honeycomb-beehive-hexagon-layered_31388863_680/vecteezy_honeycomb-beehive-hexagon-layered_31388863-1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: scale(1);
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://ih1.redbubble.net/image.2440409146.6098/flat,750x,075,f-pad,750x1000,f8f8f8.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .status {
+            margin-bottom: 20px;
+        }
+
+        #bee-status-text {
+            font-weight: bolder;
+            color: darkred;
+        }
+
+        .button, .switch {
+            margin: 10px 0;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .blower-control {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Custom Alert Box Styles */
+        .alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            align-items: center;
+            z-index: 1000;
+            max-width: 90%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .alert p {
+            display: inline;
+            margin: 0;
+            margin-right: 20px;
+        }
+
+        #alert-close {
+            margin: 0;
+            margin-left: 20px;
+            background-color: #dc3545;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        /* Existing styles remain unchanged */
+
+        /* Cloud Message Styles */
+        .cloud-message {
+            position: relative;
+            top: 200%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .cloud-message p {
+            margin: 20px;
+            font-size: 16px;
+        }
+
+        .cloud-message strong {
+            display: block;
+            font-size: 18px;
+        }
+
+        .cloud-message span {
+            font-size: 16px;
+        }
+
+        /* Animation to make the cloud appear */
+        @keyframes cloudAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .cloud-message.show {
+            display: block;
+            animation: cloudAppear 0.5s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Cattle Guard</h1>
+        
+        <div id="bee-status" class="status">
+            <p>Bees are <span id="bee-status-text">not present</span> in the field.</p>
+        </div>
+
+        <button id="bee-detection-button" class="button">Check Bee Presence</button>
+
+        <div class="blower-control">
+            <label class="switch">
+                <input type="checkbox" id="blower-toggle">
+                <span class="slider round"></span>
+            </label>
+            <span>Blower is <span id="blower-status">off</span></span>
+        </div>
+        <div id="cloud-message" class="cloud-message">
+            <p> Organic Fertilizer <strong>azadirachtin</strong> <span>300ppm</span></p>
+        </div>
+    </div>
+
+    <!-- Custom Alert Box -->
+    <div id="custom-alert" class="alert">
+        <img src="/Users/aathimuthu/Downloads/warning.png" alt="Warning" class="alert-icon">
+        <p id="alert-message">Bees arrived ! </p> 
+        <button id="alert-close" class="button">Close</button>
+    </div>
+    <audio id="alertSound" src="/Users/aathimuthu/Downloads/siren-alert-96052.mp3" preload="auto"></audio>
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    const beeDetectionButton = document.getElementById('bee-detection-button');
+    const beeStatusText = document.getElementById('bee-status-text');
+    const blowerToggle = document.getElementById('blower-toggle');
+    const blowerStatusText = document.getElementById('blower-status');
+    const customAlert = document.getElementById('custom-alert');
+    const alertCloseButton = document.getElementById('alert-close');
+    const cloudMessage = document.getElementById('cloud-message');
+    const alertSound = document.getElementById('alertSound');
+
+    beeDetectionButton.addEventListener('click', () => {
+        // Simulate bee presence detection
+        const beesPresent = Math.random() > 0.5; // Randomly simulate presence or absence of bees
+        
+        if (beesPresent) {
+            beeStatusText.textContent = 'present';
+            
+            // Play the alert sound and show the alert box simultaneously
+            alertSound.play();
+            customAlert.style.display = 'flex'; // Show the custom alert box
+        } else {
+            beeStatusText.textContent = 'not present';
+            customAlert.style.display = 'none'; // Hide the custom alert box
+        }
+    });
+
+    alertCloseButton.addEventListener('click', () => {
+        customAlert.style.display = 'none'; // Hide the custom alert box
+    });
+
+    blowerToggle.addEventListener('change', () => {
+        if (blowerToggle.checked) {
+            blowerStatusText.textContent = 'on';
+            cloudMessage.classList.add('show'); // Show the cloud message
+        } else {
+            blowerStatusText.textContent = 'off';
+            cloudMessage.classList.remove('show'); // Hide the cloud message
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
